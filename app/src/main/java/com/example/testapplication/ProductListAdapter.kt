@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 
 class ProductListAdapter(private val context: Context, var itemList: ArrayList<ProductItemModelApi>) :
@@ -37,11 +38,17 @@ class ProductListAdapter(private val context: Context, var itemList: ArrayList<P
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mTxtProductName.text = itemList[position].title
         holder.mTxtProductPrice.text = "\u20B9 ${itemList[position].price}"
-        holder.mTxtProductRating.text = "Rating - ${itemList[position].Rating.rate}"
+        holder.mTxtProductRating.text = "Rating - ${itemList[position].rating.rate}"
 
 //        Picasso.with(context)
 //            .load(itemList[position].image)
 //            .into(holder.mImgProduct)
+
+        Picasso.get().load(itemList[position].image)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_launcher_background)
+            .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+            .into(holder.mImgProduct)
     }
 
     fun updateProductList(updatedList:ArrayList<ProductItemModelApi>){

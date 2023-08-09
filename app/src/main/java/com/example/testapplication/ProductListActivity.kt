@@ -1,6 +1,7 @@
 package com.example.testapplication
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -16,7 +17,8 @@ class ProductListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_app)
-
+        mTxtLoad.visibility=View.VISIBLE
+        mRcItem.visibility=View.GONE
         setUpObserver()
         productListAdapter = ProductListAdapter(this@ProductListActivity, arrayListOf())
         mRcItem?.apply {
@@ -30,6 +32,8 @@ class ProductListActivity : AppCompatActivity() {
     private fun setUpObserver() {
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
         productViewModel?.productData?.observe(this, Observer {
+            mTxtLoad.visibility=View.GONE
+            mRcItem.visibility=View.VISIBLE
             productListAdapter?.updateProductList(it)
 //            Toast.makeText(this@ProductListActivity,it.size.toString(),Toast.LENGTH_SHORT).show()
         })
